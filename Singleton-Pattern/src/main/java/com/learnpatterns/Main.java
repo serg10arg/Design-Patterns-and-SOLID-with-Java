@@ -2,9 +2,10 @@ package com.learnpatterns;
 
 public class Main {
     public static void main(String[] args) {
-        RegistroUnico registro1 = RegistroUnico.getInstance();
-        RegistroUnico registro2 = RegistroUnico.getInstance();
+        ServicioA servicioA = new ServicioA();
+        servicioA.hacerTrabajo();
 
-        System.out.println("¿Son la misma instancia? " + (registro1 == registro2));
+        ServicioB servicioB = new ServicioB();
+        servicioB.hacerOtroTrabajo();
     }
 }
