@@ -7,7 +7,7 @@ public class RegistroUnico {
         // Constructor privado para prevenir la instanciación.
     }
 
-    public static RegistroUnico getInstance() {
+    public static synchronized RegistroUnico getInstance() {
         if (uniqueInstance == null) {
             uniqueInstance = new RegistroUnico();
         }
