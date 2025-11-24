@@ -13,11 +13,18 @@ public class Main {
         // El cliente solo conoce la fábrica abstracta, no los productos concretos.
         AnimalFactory dogFactory = new DogFactory();
         // El cliente llama al método de la plantilla, que a su vez llama al método de fábrica.
-        dogFactory.createAndDisplayAnimal("yellow");
+        dogFactory.createAndDisplayAnimal("white");
 
         System.out.println("Initializing client code with TigerFactory...");
         // Se puede cambiar la fábrica en tiempo de ejecución para obtener diferentes productos.
         AnimalFactory tigerFactory = new TigerFactory();
-        tigerFactory.createAndDisplayAnimal("white");
+        tigerFactory.createAndDisplayAnimal("brown");
+
+        System.out.println("Initializing client code with LionFactory...");
+        // Añadir un nuevo producto no requiere modificar el código cliente existente,
+        // solo añadir una nueva llamada con la nueva fábrica.
+        // Esto demuestra el Principio Abierto/Cerrado.
+        AnimalFactory lionFactory = new LionFactory();
+        lionFactory.createAndDisplayAnimal("yellow");
     }
 }
