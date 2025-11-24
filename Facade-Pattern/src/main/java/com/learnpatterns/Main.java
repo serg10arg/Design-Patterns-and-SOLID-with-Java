@@ -1,52 +1,40 @@
 package com.learnpatterns;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
 
-        // 1. Definición del Solicitante y Monto
-        Person bob = new Person("Bob", 5000, true);
-        double claimAmountBob= 20000;
+        System.out.println("***Simplifying the usage of complex system using a facade.***");
 
-        System.out.println("--- Proceso de Verificacion Larga (Sin Facade) ---");
-        System.out.println("Solicitante: " + bob.name + ". Monto Solicitado: $" + claimAmountBob);
+        // 1. Crear las instancias de los subsistemas.
+        Asset asset = new Asset();
+        LoanStatus loanStatus = new LoanStatus();
 
-        // 2. El cliente debe instanciar MÚLTIPLES subsistemas directamente.
-        // Esto expone al cliente a los detalles internos del sistema.
-        Asset assetChecker = new Asset();
-        LoanStatus loanStatusChecker = new LoanStatus();
+        // El cliente solo necesita instanciar el Facade (LoanApprover)
+        LoanApprover loanApprover = new LoanApprover(asset, loanStatus);
 
-        // Variable para almacenar los resultados
-        boolean elegibleByAsset;
-        boolean elegibleByPreviousLoan;
-        String finalStatus = "Approved";
-        String reasons = "";
+        // Caso 1: Bob
+        Person personBob = new Person("Bob", 5000, true);
+        checkElegibility(personBob, 20000, loanApprover);
+        System.out.println("----------");
 
-        // 3. El cliente debe recordar la SECUENCIA y LÓGICA de llamadas.
-        // Lógica de verificación de Activos
-        elegibleByAsset = assetChecker.hasSufficientAssetValue(bob, claimAmountBob);
+        // Caso 2: Jack
+        Person personJack = new Person("Jack", 70000, false);
+        checkElegibility(personJack, 30000, loanApprover);
+        System.out.println("----------");
 
-        if (!elegibleByAsset) {
-            finalStatus = "Not approved";
-            reasons += "\nInsufficient balance."; // Criterio 1: Activos insuficientes
-        }
+        // Caso 3: Tony
+        Person personTony = new Person("Tony", 125000, true);
+        checkElegibility(personTony, 125500, loanApprover);
+        System.out.println("----------");
 
-        // Lógica de verificación de Préstamo Anterior
-        elegibleByPreviousLoan = !loanStatusChecker.hasPreviousLoans(bob);
+    }
 
-        if (!elegibleByPreviousLoan) {
-            finalStatus = "Not approved";
-            reasons += "\nAn old loan exists."; // Criterio 2: Préstamo existente
-        }
+    // Método auxiliar para demostrar la interaccion simple del cliente.
+    private static void checkElegibility(Person person, double ClaimAmount, LoanApprover approver) {
 
-        // 4. Mostrar el resultado final al cliente
-        System.out.println("\n*** RESULTADO PARA " + bob.name + " ***");
-        System.out.println("Estado Final: " + finalStatus);
+        // El cliente llama a la interfaz unifica del Facade
+        String approvalStatus = approver.CheckLoanElegibility(person, ClaimAmount);
 
-        if (!reasons.isEmpty()) {
-            System.out.println("Razones para la denegacion:" + reasons);
-        }
-
+        System.out.println(person.name + "'s application status:" + approvalStatus); // Muestra el resultado final
     }
 }

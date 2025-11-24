@@ -10,6 +10,6 @@ public class LoanStatus {
         System.out.println("Verifying " + person.name + "'s previous loan(s) status");
 
         // Lógica de verificación: Retorna el estado del atributo previousLoanExist
-        return person.previousLoanExist;
+        return person.previousLoanExist ? true : false;
     }
 }
