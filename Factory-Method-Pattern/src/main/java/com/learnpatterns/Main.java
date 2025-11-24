@@ -1,27 +1,23 @@
 package com.learnpatterns;
 
 /**
- * Clase cliente que utiliza el patrón Factory Method.
+ * Cliente (Client).
+ * El código cliente trabaja con una instancia de un creador concreto (DogFactory, TigerFactory),
+ * a través de su interfaz abstracta (AnimalFactory).
+ * Mientras el cliente siga trabajando con la fábrica a través de la interfaz base,
+ * puedes pasarle cualquier subclase de la fábrica.
  */
 public class Main {
     public static void main(String[] args) {
+        System.out.println("Initializing client code with DogFactory...");
+        // El cliente solo conoce la fábrica abstracta, no los productos concretos.
+        AnimalFactory dogFactory = new DogFactory();
+        // El cliente llama al método de la plantilla, que a su vez llama al método de fábrica.
+        dogFactory.createAndDisplayAnimal("yellow");
 
-        System.out.println("***Factory Method Pattern Demo.***");
-
-        AnimalFactory factory;
-        Animal animal;
-
-        // 1. Usar TigerFactory (Subclase Creadora) para crear un producto.
-        factory = new TigerFactory();
-
-        // 2. El método createAnimal() es llamado en la fábrica concreta,
-        //    pero el cliente solo ve que el resultado es un 'Animal'.
-        animal = factory.createAnimal();
-        animal.displayBehavior();
-
-        // 3. Reutilizar la variable abstracta 'factory' para la DogFactory.
-        factory = new DogFactory();
-        animal = factory.createAnimal();
-        animal.displayBehavior();
+        System.out.println("Initializing client code with TigerFactory...");
+        // Se puede cambiar la fábrica en tiempo de ejecución para obtener diferentes productos.
+        AnimalFactory tigerFactory = new TigerFactory();
+        tigerFactory.createAndDisplayAnimal("white");
     }
 }
